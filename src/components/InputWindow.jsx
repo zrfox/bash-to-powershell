@@ -2,11 +2,12 @@ import { useState } from 'react'
 
 
 
-function InputWindow(){
-
+function InputWindow({ onRemove }){
+// idk if i need this here or in homepage. 
 
     return (
         <>
+        <button onClick={onRemove}>Remove</button>
         <textarea />
         </>
     );

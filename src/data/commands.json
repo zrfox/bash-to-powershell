@@ -1,0 +1,198 @@
+[
+  {
+    "id": "list-directory",
+    "description": "List directory contents",
+    "shells": {
+      "bash": {
+        "command": "ls",
+        "aliases": ["dir", "vdir"],
+        "flags": {
+          "-l": "long format",
+          "-a": "include hidden files",
+          "-h": "human-readable sizes"
+        }
+      },
+      "powershell": {
+        "command": "Get-ChildItem",
+        "aliases": ["ls", "dir", "gci"],
+        "flags": {
+          "-Force": "include hidden files",
+          "-Recurse": "list recursively"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "change-directory",
+    "description": "Change the current directory",
+    "shells": {
+      "bash": {
+        "command": "cd",
+        "aliases": [],
+        "flags": {}
+      },
+      "powershell": {
+        "command": "Set-Location",
+        "aliases": ["cd", "sl"],
+        "flags": {}
+      }
+    }
+  },
+
+  {
+    "id": "copy-files",
+    "description": "Copy files or directories",
+    "shells": {
+      "bash": {
+        "command": "cp",
+        "aliases": [],
+        "flags": {
+          "-r": "copy directories recursively",
+          "-i": "prompt before overwrite",
+          "-v": "verbose output"
+        }
+      },
+      "powershell": {
+        "command": "Copy-Item",
+        "aliases": ["cp", "copy"],
+        "flags": {
+          "-Recurse": "copy directories recursively",
+          "-Force": "overwrite existing files",
+          "-Verbose": "verbose output"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "move-files",
+    "description": "Move or rename files",
+    "shells": {
+      "bash": {
+        "command": "mv",
+        "aliases": [],
+        "flags": {
+          "-i": "prompt before overwrite",
+          "-v": "verbose output"
+        }
+      },
+      "powershell": {
+        "command": "Move-Item",
+        "aliases": ["mv", "move"],
+        "flags": {
+          "-Force": "overwrite existing files",
+          "-Verbose": "verbose output"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "remove-files",
+    "description": "Delete files or directories",
+    "shells": {
+      "bash": {
+        "command": "rm",
+        "aliases": [],
+        "flags": {
+          "-r": "remove directories recursively",
+          "-f": "force deletion without prompt",
+          "-i": "prompt before deletion"
+        }
+      },
+      "powershell": {
+        "command": "Remove-Item",
+        "aliases": ["rm", "del"],
+        "flags": {
+          "-Recurse": "remove directories recursively",
+          "-Force": "force deletion without prompt"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "print-working-directory",
+    "description": "Show the current directory path",
+    "shells": {
+      "bash": {
+        "command": "pwd",
+        "aliases": [],
+        "flags": {}
+      },
+      "powershell": {
+        "command": "Get-Location",
+        "aliases": ["pwd", "gl"],
+        "flags": {}
+      }
+    }
+  },
+
+  {
+    "id": "view-file",
+    "description": "Display file contents",
+    "shells": {
+      "bash": {
+        "command": "cat",
+        "aliases": [],
+        "flags": {
+          "-n": "number lines",
+          "-A": "show non-printing characters"
+        }
+      },
+      "powershell": {
+        "command": "Get-Content",
+        "aliases": ["cat", "type", "gc"],
+        "flags": {
+          "-TotalCount": "limit number of lines"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "search-text",
+    "description": "Search for text inside files",
+    "shells": {
+      "bash": {
+        "command": "grep",
+        "aliases": [],
+        "flags": {
+          "-i": "case-insensitive search",
+          "-r": "recursive search",
+          "-n": "show line numbers"
+        }
+      },
+      "powershell": {
+        "command": "Select-String",
+        "aliases": ["grep", "sls"],
+        "flags": {
+          "-CaseSensitive": "case-sensitive search",
+          "-Recurse": "recursive search"
+        }
+      }
+    }
+  },
+
+  {
+    "id": "create-directory",
+    "description": "Create a new directory",
+    "shells": {
+      "bash": {
+        "command": "mkdir",
+        "aliases": [],
+        "flags": {
+          "-p": "create parent directories if needed"
+        }
+      },
+      "powershell": {
+        "command": "New-Item",
+        "aliases": ["mkdir", "md"],
+        "flags": {
+          "-ItemType": "specify item type (Directory)"
+        }
+      }
+    }
+  }
+]
