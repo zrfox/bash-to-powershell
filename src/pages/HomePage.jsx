@@ -14,10 +14,17 @@ function openDialog() {
     setDialog(true);
 }
 
-function addInputWindow() {
+function closeDialog() {
+    setDialog(false);
+}
 
+function addInputWindow(languageName) {
 
-    setInputWindows(prev => [...prev, nanoid()]);
+    //setInputWindowLanguage(languageName);
+    const id = nanoid();
+    closeDialog();
+    setInputWindows(prev => [...prev, {id, languageName}]);
+
 }
 /*
 function removeInputWindow() {
@@ -25,9 +32,9 @@ function removeInputWindow() {
 }*/
 
 function removeInputWindow(id) {
-    setInputWindows(prev => prev.filter(w => w !== id));
+    setInputWindows(prev => prev.filter(w => w.id !== id));
 }
-  
+
     return (
         <>
         <div className="input-windows-container">
@@ -38,7 +45,7 @@ function removeInputWindow(id) {
             {dialogOpen ? (
                 <dialog open>
                     {languages.languages.map(language => (
-                        <button key = {language.id}>
+                        <button key = {language.id} onClick={() => addInputWindow(language.name)}>
                             {language.name}
                         </button>
                     ))}
@@ -46,10 +53,11 @@ function removeInputWindow(id) {
             ) : (<></>)
         }
         </div>
-            {inputWindows.map(id => (
+            {inputWindows.map(window => (
                 <InputWindow 
-                    key={id}
-                    onRemove={() => removeInputWindow(id)}
+                    key={window.id}
+                    languageName={window.languageName}
+                    onRemove={() => removeInputWindow(window.id)}
                     />
             ))}
         </div>
