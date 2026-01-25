@@ -7,8 +7,10 @@ function InputWindow({ onRemove }){
 
     return (
         <>
-        <button onClick={onRemove}>Remove</button>
-        <textarea />
+        <div className='input-window'>
+            <button className='close-button' onClick={onRemove}>x</button>
+            <textarea />
+        </div>
         </>
     );
 }

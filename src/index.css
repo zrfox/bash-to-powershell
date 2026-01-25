@@ -66,3 +66,40 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+#root {
+  display: flex;
+    flex-direction: column;
+
+}
+
+.add-window {
+  
+}
+
+/* dialog / modal */
+
+.dialog-container {
+  display: flex;
+  max-width: 200px;
+  padding: 100px;
+}
+
+/* Input Windows / Input Window styles */
+
+.input-windows-container {
+  display: flex;
+}
+
+.input-window {
+  flex-direction: column;
+}
+
+.close-button {
+ 
+  display:flex;
+  
+  text-align: center;
+  flex-grow: 1;
+
+}
