@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid"
 
 import InputWindow from "../components/InputWindow";
@@ -35,24 +35,30 @@ function removeInputWindow(id) {
     setInputWindows(prev => prev.filter(w => w.id !== id));
 }
 
+function getInput() {
+    useEffect(() => {
+
+        // think the dependency array should be the text input? yeah? because we would run useEffect when it is changed? 
+    }, [])
+}
+
     return (
         <>
         <div className="input-windows-container">
-        <div>
-            <button className="add-button" onClick={openDialog}>Add</button>
-        </div>
-        <div className="dialog-container">
+        <div className="add-dialog-container">
             {dialogOpen ? (
-                <dialog open>
+                <div role="dialogue" className="dialogue">
                     {languages.languages.map(language => (
                         <button key = {language.id} onClick={() => addInputWindow(language.name)}>
                             {language.name}
                         </button>
                     ))}
-                </dialog>
+                </div>
             ) : (<></>)
         }
+            <button className="add-button" onClick={openDialog}>Add</button>
         </div>
+        
             {inputWindows.map(window => (
                 <InputWindow 
                     key={window.id}
