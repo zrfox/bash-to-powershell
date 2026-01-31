@@ -5,19 +5,26 @@ import { useState, useId } from 'react'
 function InputWindow({ onRemove, languageName }){
 // idk if i need this here or in homepage. 
 
-const [text, setText] = useState();
+const [text, setText] = useState([]);
 
 const inputTextAreaId = useId();
 
 
 
 function setTextHandler(inputText) {
-    setText(inputText);
+    const checkedText = processText(inputText)
+    setText(checkedText);
 }
 
-function checkMatch() {
+function processText(inputText) {
+   const cleanedText = tokenizeText(inputText);
+    return cleanedText;
     
 }
+function tokenizeText(text) {
+    return text.toLowerCase().split(' ');
+}
+
     return (
         <>
         <div className='input-window'>
@@ -27,7 +34,7 @@ function checkMatch() {
             <textarea
                 id={inputTextAreaId}
                 name='inputTextArea'
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => setTextHandler(e.target.value)}
             />
             
         </div>
