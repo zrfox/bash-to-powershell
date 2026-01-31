@@ -87,6 +87,7 @@ button:focus-visible {
 .dialogue {
   position: absolute;
   display: flex;
+  align-self: flex-end;
   margin: 0;
   bottom: 100%;        /* sit ABOVE the button */
  

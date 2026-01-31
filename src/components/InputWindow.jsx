@@ -1,29 +1,11 @@
 import { useState, useId } from 'react'
 
+import commands from "../data/commands.json";
 
 
-function InputWindow({ onRemove, languageName }){
-// idk if i need this here or in homepage. 
-
-const [text, setText] = useState([]);
-
-const inputTextAreaId = useId();
-
-
-
-function setTextHandler(inputText) {
-    const checkedText = processText(inputText)
-    setText(checkedText);
-}
-
-function processText(inputText) {
-   const cleanedText = tokenizeText(inputText);
-    return cleanedText;
+function InputWindow({ onRemove, languageName, setTextHandler }){
     
-}
-function tokenizeText(text) {
-    return text.toLowerCase().split(' ');
-}
+    const inputTextAreaId = useId();
 
     return (
         <>
@@ -34,7 +16,7 @@ function tokenizeText(text) {
             <textarea
                 id={inputTextAreaId}
                 name='inputTextArea'
-                onChange={(e) => setTextHandler(e.target.value)}
+                onChange={(e) => setTextHandler(e.target.value, languageName)}
             />
             
         </div>

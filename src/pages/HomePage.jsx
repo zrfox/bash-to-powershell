@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { nanoid } from "nanoid"
 
 import InputWindow from "../components/InputWindow";
@@ -35,11 +35,50 @@ function removeInputWindow(id) {
     setInputWindows(prev => prev.filter(w => w.id !== id));
 }
 
+/*
 function getInput() {
     useEffect(() => {
 
         // think the dependency array should be the text input? yeah? because we would run useEffect when it is changed? 
     }, [])
+}
+*/
+// State for inputText
+
+const [text, setText] = useState([]);
+const [commandIds, setCommandId] = useState([]);
+
+function setCommandIdHandler(commandIdArray) {
+    setCommandId(commandIdArray)
+}
+
+
+function setTextHandler(inputText, languageName) {
+    const checkedText = tokenizeText(inputText)
+    matchText(checkedText, languageName);
+    setText(checkedText);
+}
+/*
+function processText(inputText) {
+   const cleanedText = tokenizeText(inputText);
+    return cleanedText;
+    
+}*/
+
+function tokenizeText(input) {
+    return input.toLowerCase().split(' ');
+}
+
+function matchText(textArray, languageName) {
+    let commandIdArray = [];
+    textArray.forEach(element => {
+        commands.forEach(command => {
+            if (command.shells[languageName].command === element) {
+                commandIdArray.push(command.id);
+        }
+    }
+       )});
+    setCommandIdHandler(commandIdArray);
 }
 
     return (
@@ -64,6 +103,7 @@ function getInput() {
                     key={window.id}
                     languageName={window.languageName}
                     onRemove={() => removeInputWindow(window.id)}
+                    setTextHandler ={ setTextHandler}
                     />
             ))}
         </div>
