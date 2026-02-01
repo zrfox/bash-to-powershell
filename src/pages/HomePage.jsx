@@ -8,8 +8,13 @@ import languages from "../data/languages.json";
 function HomePage(){
 const [inputWindows, setInputWindows] = useState([]);
 const [dialogOpen, setDialog] = useState(false);
+const [activeWindowId, setActiveWindowId] = useState();
 
-// idk if this is right, if i can just set true? 
+function setActiveWindowIdHandler(windowId) {
+    setActiveWindowId(windowId);
+}
+
+// idk if this is right, if i can just set true? Could just change to one function that does !current state. 
 function openDialog() {
     setDialog(true);
 }
@@ -53,7 +58,7 @@ function setCommandIdHandler(commandIdArray) {
 }
 
 
-function setTextHandler(inputText, languageName) {
+function setTextHandler(inputText, languageName, nId) {
     const checkedText = tokenizeText(inputText)
     matchText(checkedText, languageName);
     setText(checkedText);
@@ -103,7 +108,11 @@ function matchText(textArray, languageName) {
                     key={window.id}
                     languageName={window.languageName}
                     onRemove={() => removeInputWindow(window.id)}
-                    setTextHandler ={ setTextHandler}
+                    setTextHandler ={setTextHandler}
+                    nId={window.id}
+                    /*translatedCommands THIS COMMENT MAY CAUSE PROBLEMS*/
+                    setActiveWindowIdHandler={setActiveWindowIdHandler}
+                    activeWindowId={activeWindowId}
                     />
             ))}
         </div>

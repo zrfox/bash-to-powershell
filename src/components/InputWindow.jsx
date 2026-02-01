@@ -3,7 +3,7 @@ import { useState, useId } from 'react'
 import commands from "../data/commands.json";
 
 
-function InputWindow({ onRemove, languageName, setTextHandler }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, activeWindowId }){
     
     const inputTextAreaId = useId();
 
@@ -16,7 +16,10 @@ function InputWindow({ onRemove, languageName, setTextHandler }){
             <textarea
                 id={inputTextAreaId}
                 name='inputTextArea'
-                onChange={(e) => setTextHandler(e.target.value, languageName)}
+                onClick={() => setActiveWindowIdHandler(nId)}
+                onChange={(e) => {if(activeWindowId == nId) {
+                    setTextHandler(e.target.value, languageName, nId)}}
+                }
             />
             
         </div>
