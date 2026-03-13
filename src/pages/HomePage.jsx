@@ -110,7 +110,14 @@ function matchText(textArray, languageName) {
                     onRemove={() => removeInputWindow(window.id)}
                     setTextHandler ={setTextHandler}
                     nId={window.id}
-                    /*translatedCommands THIS COMMENT MAY CAUSE PROBLEMS*/
+                   /* translatedCommands={() =>
+                        commandIds.forEach((commandId) =>{
+                            commands[commandId].shells[languageName].command
+                        }
+                        
+                        )
+                    } */
+                    commandIds={commandIds}
                     setActiveWindowIdHandler={setActiveWindowIdHandler}
                     activeWindowId={activeWindowId}
                     />

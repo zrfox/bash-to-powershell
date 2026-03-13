@@ -3,9 +3,24 @@ import { useState, useId } from 'react'
 import commands from "../data/commands.json";
 
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, activeWindowId }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text }){
     
     const inputTextAreaId = useId();
+
+    function getCommandsInCommon(commandIds) {
+        if (nId == activeWindowId) return;
+        let translatedCommands = [];
+        commandIds.forEach((commandId) =>{
+            translatedCommands.push(commands[commandId].shells[languageName].command);
+        }
+        )
+        const translatedStr = JSON.stringify(translatedCommands);
+        return translatedStr;            
+    }
+
+    const isActive = nId === activeWindowId;
+
+    const valueText = isActive ? text : getCommandsInCommon(commandIds);
 
     return (
         <>
@@ -20,6 +35,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
                 onChange={(e) => {if(activeWindowId == nId) {
                     setTextHandler(e.target.value, languageName, nId)}}
                 }
+                value={valueText}
             />
             
         </div>
