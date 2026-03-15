@@ -1,4 +1,4 @@
-import commands from "../data/commands.json"
+import commands from "../data/commands.json" with { type: "json" };
 
 const commandTokenToId = {};
 const commandById = {};

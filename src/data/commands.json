@@ -5,22 +5,59 @@
     "shells": {
       "bash": {
         "command": "ls",
-        "aliases": ["dir", "vdir"],
-        "flags": {
-          "-l": "long format",
-          "-a": "include hidden files",
-          "-h": "human-readable sizes"
-        }
+        "aliases": ["dir", "vdir"]
       },
       "powershell": {
         "command": "Get-ChildItem",
-        "aliases": ["ls", "dir", "gci"],
-        "flags": {
-          "-Force": "include hidden files",
-          "-Recurse": "list recursively"
+        "aliases": ["ls", "dir", "gci"]
+      }
+    },
+    "flags": [
+      {
+        "id": "all-files",
+        "shells": {
+          "bash": "-a",
+          "powershell": "-Force"
+        }
+      },
+      {
+        "id": "long-format",
+        "shells": {
+          "bash": "-l"
+        }
+      },
+      {
+        "id": "human-readable",
+        "shells": {
+          "bash": "-h"
+        }
+      },
+      {
+        "id": "recursive",
+        "shells": {
+          "bash": "-R",
+          "powershell": "-Recurse"
+        }
+      },
+      {
+        "id": "sort-time",
+        "shells": {
+          "bash": "-t"
+        }
+      },
+      {
+        "id": "include",
+        "shells": {
+          "powershell": "-Include"
+        }
+      },
+      {
+        "id": "exclude",
+        "shells": {
+          "powershell": "-Exclude"
         }
       }
-    }
+    ]
   },
 
   {
@@ -29,15 +66,33 @@
     "shells": {
       "bash": {
         "command": "cd",
-        "aliases": [],
-        "flags": {}
+        "aliases": []
       },
       "powershell": {
         "command": "Set-Location",
-        "aliases": ["cd", "sl"],
-        "flags": {}
+        "aliases": ["cd", "sl"]
       }
-    }
+    },
+    "flags": [
+      {
+        "id": "physical",
+        "shells": {
+          "bash": "-P"
+        }
+      },
+      {
+        "id": "logical",
+        "shells": {
+          "bash": "-L"
+        }
+      },
+      {
+        "id": "stack",
+        "shells": {
+          "powershell": "-StackName"
+        }
+      }
+    ]
   },
 
   {
@@ -46,23 +101,60 @@
     "shells": {
       "bash": {
         "command": "cp",
-        "aliases": [],
-        "flags": {
-          "-r": "copy directories recursively",
-          "-i": "prompt before overwrite",
-          "-v": "verbose output"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "Copy-Item",
-        "aliases": ["cp", "copy"],
-        "flags": {
-          "-Recurse": "copy directories recursively",
-          "-Force": "overwrite existing files",
-          "-Verbose": "verbose output"
+        "aliases": ["cp", "copy"]
+      }
+    },
+    "flags": [
+      {
+        "id": "recursive",
+        "shells": {
+          "bash": "-r",
+          "powershell": "-Recurse"
+        }
+      },
+      {
+        "id": "interactive",
+        "shells": {
+          "bash": "-i"
+        }
+      },
+      {
+        "id": "verbose",
+        "shells": {
+          "bash": "-v",
+          "powershell": "-Verbose"
+        }
+      },
+      {
+        "id": "force",
+        "shells": {
+          "bash": "-f",
+          "powershell": "-Force"
+        }
+      },
+      {
+        "id": "preserve",
+        "shells": {
+          "bash": "-p"
+        }
+      },
+      {
+        "id": "include",
+        "shells": {
+          "powershell": "-Include"
+        }
+      },
+      {
+        "id": "exclude",
+        "shells": {
+          "powershell": "-Exclude"
         }
       }
-    }
+    ]
   },
 
   {
@@ -71,21 +163,53 @@
     "shells": {
       "bash": {
         "command": "mv",
-        "aliases": [],
-        "flags": {
-          "-i": "prompt before overwrite",
-          "-v": "verbose output"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "Move-Item",
-        "aliases": ["mv", "move"],
-        "flags": {
-          "-Force": "overwrite existing files",
-          "-Verbose": "verbose output"
+        "aliases": ["mv", "move"]
+      }
+    },
+    "flags": [
+      {
+        "id": "interactive",
+        "shells": {
+          "bash": "-i"
+        }
+      },
+      {
+        "id": "verbose",
+        "shells": {
+          "bash": "-v",
+          "powershell": "-Verbose"
+        }
+      },
+      {
+        "id": "force",
+        "shells": {
+          "bash": "-f",
+          "powershell": "-Force"
+        }
+      },
+      {
+        "id": "no-clobber",
+        "shells": {
+          "bash": "-n"
+        }
+      },
+      {
+        "id": "include",
+        "shells": {
+          "powershell": "-Include"
+        }
+      },
+      {
+        "id": "exclude",
+        "shells": {
+          "powershell": "-Exclude"
         }
       }
-    }
+    ]
   },
 
   {
@@ -94,22 +218,42 @@
     "shells": {
       "bash": {
         "command": "rm",
-        "aliases": [],
-        "flags": {
-          "-r": "remove directories recursively",
-          "-f": "force deletion without prompt",
-          "-i": "prompt before deletion"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "Remove-Item",
-        "aliases": ["rm", "del"],
-        "flags": {
-          "-Recurse": "remove directories recursively",
-          "-Force": "force deletion without prompt"
+        "aliases": ["rm", "del"]
+      }
+    },
+    "flags": [
+      {
+        "id": "recursive",
+        "shells": {
+          "bash": "-r",
+          "powershell": "-Recurse"
+        }
+      },
+      {
+        "id": "force",
+        "shells": {
+          "bash": "-f",
+          "powershell": "-Force"
+        }
+      },
+      {
+        "id": "interactive",
+        "shells": {
+          "bash": "-i"
+        }
+      },
+      {
+        "id": "verbose",
+        "shells": {
+          "bash": "-v",
+          "powershell": "-Verbose"
         }
       }
-    }
+    ]
   },
 
   {
@@ -118,15 +262,21 @@
     "shells": {
       "bash": {
         "command": "pwd",
-        "aliases": [],
-        "flags": {}
+        "aliases": []
       },
       "powershell": {
         "command": "Get-Location",
-        "aliases": ["pwd", "gl"],
-        "flags": {}
+        "aliases": ["pwd", "gl"]
       }
-    }
+    },
+    "flags": [
+      {
+        "id": "physical",
+        "shells": {
+          "bash": "-P"
+        }
+      }
+    ]
   },
 
   {
@@ -135,20 +285,51 @@
     "shells": {
       "bash": {
         "command": "cat",
-        "aliases": [],
-        "flags": {
-          "-n": "number lines",
-          "-A": "show non-printing characters"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "Get-Content",
-        "aliases": ["cat", "type", "gc"],
-        "flags": {
-          "-TotalCount": "limit number of lines"
+        "aliases": ["cat", "type", "gc"]
+      }
+    },
+    "flags": [
+      {
+        "id": "number-lines",
+        "shells": {
+          "bash": "-n"
+        }
+      },
+      {
+        "id": "show-nonprinting",
+        "shells": {
+          "bash": "-A"
+        }
+      },
+      {
+        "id": "squeeze-blank",
+        "shells": {
+          "bash": "-s"
+        }
+      },
+      {
+        "id": "limit-lines",
+        "shells": {
+          "powershell": "-TotalCount"
+        }
+      },
+      {
+        "id": "tail",
+        "shells": {
+          "powershell": "-Tail"
+        }
+      },
+      {
+        "id": "wait",
+        "shells": {
+          "powershell": "-Wait"
         }
       }
-    }
+    ]
   },
 
   {
@@ -157,22 +338,64 @@
     "shells": {
       "bash": {
         "command": "grep",
-        "aliases": [],
-        "flags": {
-          "-i": "case-insensitive search",
-          "-r": "recursive search",
-          "-n": "show line numbers"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "Select-String",
-        "aliases": ["grep", "sls"],
-        "flags": {
-          "-CaseSensitive": "case-sensitive search",
-          "-Recurse": "recursive search"
+        "aliases": ["grep", "sls"]
+      }
+    },
+    "flags": [
+      {
+        "id": "case-insensitive",
+        "shells": {
+          "bash": "-i"
+        }
+      },
+      {
+        "id": "recursive",
+        "shells": {
+          "bash": "-r",
+          "powershell": "-Recurse"
+        }
+      },
+      {
+        "id": "line-numbers",
+        "shells": {
+          "bash": "-n"
+        }
+      },
+      {
+        "id": "invert-match",
+        "shells": {
+          "bash": "-v"
+        }
+      },
+      {
+        "id": "count",
+        "shells": {
+          "bash": "-c"
+        }
+      },
+      {
+        "id": "case-sensitive",
+        "shells": {
+          "powershell": "-CaseSensitive"
+        }
+      },
+      {
+        "id": "list",
+        "shells": {
+          "powershell": "-List"
+        }
+      },
+      {
+        "id": "context",
+        "shells": {
+          "powershell": "-Context"
         }
       }
-    }
+    ]
   },
 
   {
@@ -181,18 +404,38 @@
     "shells": {
       "bash": {
         "command": "mkdir",
-        "aliases": [],
-        "flags": {
-          "-p": "create parent directories if needed"
-        }
+        "aliases": []
       },
       "powershell": {
         "command": "New-Item",
-        "aliases": ["mkdir", "md"],
-        "flags": {
-          "-ItemType": "specify item type (Directory)"
+        "aliases": ["mkdir", "md"]
+      }
+    },
+    "flags": [
+      {
+        "id": "parents",
+        "shells": {
+          "bash": "-p"
+        }
+      },
+      {
+        "id": "verbose",
+        "shells": {
+          "bash": "-v"
+        }
+      },
+      {
+        "id": "item-type",
+        "shells": {
+          "powershell": "-ItemType"
+        }
+      },
+      {
+        "id": "force",
+        "shells": {
+          "powershell": "-Force"
         }
       }
-    }
+    ]
   }
 ]
