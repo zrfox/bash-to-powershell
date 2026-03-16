@@ -1,7 +1,11 @@
 {
-    "languages": [
-        {"id": 1, "name": "bash"},
-        {"id": 2, "name": "powershell"},
-        {"id": 3, "name": "cmd"}
-    ]
+        "bash": {
+            "caseSensitive": true
+        },
+        "powershell": {
+            "caseSensitive": false
+        },
+        "cmd": {
+            "caseSensitive": false
+        }
 }
