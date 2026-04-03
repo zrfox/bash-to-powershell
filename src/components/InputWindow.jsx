@@ -37,7 +37,6 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
                 }
                 value={valueText}
             />
-            
         </div>
         </>
     );

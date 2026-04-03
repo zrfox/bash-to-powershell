@@ -6,7 +6,7 @@ import commands from "../data/commands.json";
 import languages from "../data/languages.json";
 
 function HomePage(){
-const [inputWindows, setInputWindows] = useState([]);
+const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
 const [activeWindowId, setActiveWindowId] = useState();
 
@@ -92,21 +92,21 @@ function matchText(textArray, languageName) {
         <div className="add-dialog-container">
             {dialogOpen ? (
                 <div role="dialogue" className="dialogue">
-                    {languages.languages.map(language => (
-                        <button key = {language.id} onClick={() => addInputWindow(language.name)}>
-                            {language.name}
+                    for (const [key, value] of Object.entries(languages)) {
+                        <button key={key} onClick={() => addInputWindow(language.name)}>
+                        {key}
                         </button>
-                    ))}
+                    }
                 </div>
             ) : (<></>)
         }
             <button className="add-button" onClick={openDialog}>Add</button>
         </div>
-        
+        {/*changed languageName attribute to .language from .languageName*/}
             {inputWindows.map(window => (
                 <InputWindow 
                     key={window.id}
-                    languageName={window.languageName}
+                    languageName={window.language} 
                     onRemove={() => removeInputWindow(window.id)}
                     setTextHandler ={setTextHandler}
                     nId={window.id}
@@ -120,6 +120,7 @@ function matchText(textArray, languageName) {
                     commandIds={commandIds}
                     setActiveWindowIdHandler={setActiveWindowIdHandler}
                     activeWindowId={activeWindowId}
+                    text={text}
                     />
             ))}
         </div>
