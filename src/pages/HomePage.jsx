@@ -92,11 +92,15 @@ function matchText(textArray, languageName) {
         <div className="add-dialog-container">
             {dialogOpen ? (
                 <div role="dialogue" className="dialogue">
-                    for (const [key, value] of Object.entries(languages)) {
-                        <button key={key} onClick={() => addInputWindow(language.name)}>
-                        {key}
-                        </button>
-                    }
+                    {Object.entries(languages).map(([languageName, data]) => {
+                        return (
+                            <button key={languageName} onClick={() => addInputWindow(languageName)}>
+                            {languageName}
+                            </button>)
+                    }                    
+                    )}
+                    
+                    
                 </div>
             ) : (<></>)
         }
