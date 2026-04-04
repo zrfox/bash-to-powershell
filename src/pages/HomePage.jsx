@@ -5,6 +5,9 @@ import InputWindow from "../components/InputWindow";
 import commands from "../data/commands.json";
 import languages from "../data/languages.json";
 
+import { commandTokenToId } from "../utils/commandIndex";
+import { commandById } from "../utils/commandIndex";
+
 function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
@@ -28,7 +31,7 @@ function addInputWindow(languageName) {
     //setInputWindowLanguage(languageName);
     const id = nanoid();
     closeDialog();
-    setInputWindows(prev => [...prev, {id, languageName}]);
+    setInputWindows(prev => [...prev, {id: id, language: languageName}]);
 
 }
 /*
@@ -48,8 +51,8 @@ function getInput() {
     }, [])
 }
 */
-// State for inputText
 
+// State for inputText
 const [text, setText] = useState([]);
 const [commandIds, setCommandId] = useState([]);
 

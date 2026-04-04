@@ -97,6 +97,7 @@ button:focus-visible {
 
 .input-windows-container {
   display: flex;
+  justify-content: center;
 }
 
 .input-window {
