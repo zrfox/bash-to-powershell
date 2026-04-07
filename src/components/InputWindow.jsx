@@ -5,9 +5,14 @@ import commands from "../data/commands.json";
 import { commandById } from '../utils/commandIndex';
 import { flagById } from '../utils/flagIndex';
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize }){
     
     const inputTextAreaId = useId();
+
+    function setTextAreaSizeHandler(e) {
+        console.log("setTextArea called!");
+        setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
+    }
 
     function getCommandsInCommon(commandIds) {
         console.log("commandIds: ", commandIds);
@@ -45,6 +50,8 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
                     setTextHandler(e.target.value, languageName, nId)}}
                 }
                 value={valueText}
+                onMouseUp={setTextAreaSizeHandler}
+                style={{width: textAreaSize[0],  height: textAreaSize[1]}}
             />
         </div>
         </>
