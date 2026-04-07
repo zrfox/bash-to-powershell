@@ -18,4 +18,8 @@ commands.forEach(cmd => {
     })
 })
 
+console.log(commandTokenToId, '\n', commandById);
+
+
+
 export { commandTokenToId, commandById };

@@ -21,8 +21,8 @@ commands.forEach(cmd => {
             
         })
     })
-    console.log(flagTokenToId);
 })
+console.log(flagTokenToId, '\n', flagById);
 
 // flags have different meanings depending on the command, especially in bash. 
 // this means. when parsing user input, we will look up the flagId after getting the
