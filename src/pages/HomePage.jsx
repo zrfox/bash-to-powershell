@@ -14,6 +14,9 @@ function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
 const [activeWindowId, setActiveWindowId] = useState();
+// maintains uniform window size for all InputWindows
+const [textAreaSize, setTextAreaSize] = useState([400, 400]);
+
 
 function setActiveWindowIdHandler(windowId) {
     setActiveWindowId(windowId);
@@ -140,6 +143,8 @@ function matchText(textArray, languageName) {
                     setActiveWindowIdHandler={setActiveWindowIdHandler}
                     activeWindowId={activeWindowId}
                     text={text}
+                    textAreaSize={textAreaSize}
+                    setTextAreaSize={setTextAreaSize}
                     />
             ))}
         </div>
