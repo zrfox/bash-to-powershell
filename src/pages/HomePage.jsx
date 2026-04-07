@@ -82,21 +82,30 @@ function tokenizeText(input) {
 }
 
 function matchText(textArray, languageName) {
-    let commandIdArray = [];
+    let result = [];
+    let currentEntry = null;
     textArray.forEach(element => {
         // likely need to split commands and id's before this, or at least check as we go
         // could check if hyphen at start...that will probaly fail later but for now..will expose issue later so sure
         if (element[0] == '-') {
-            commandIdArray.push(flagTokenToId[element]);
+            if (currentEntry) {
+                const flagId = flagTokenToId[`${languageName}: ${element}`];
+                if (flagId) currentEntry.flagIds.push(flagId);
+            }
+           // commandIdArray.push(flagTokenToId[element]);
         }
         else {
-            commandIdArray.push(commandTokenToId[element]);
+            const commandId = commandTokenToId[element];
+            if (commandId) {
+                currentEntry = { commandId, flagIds: [] };
+                result.push(currentEntry);
+            }
         }
 
-        console.log("commandIdArray", commandIdArray);
+        console.log("result", result);
 
 })
-    setCommandIdHandler(commandIdArray);
+    setCommandIdHandler(result);
 
 };
 
