@@ -7,6 +7,8 @@ import languages from "../data/languages.json";
 
 import { commandTokenToId } from "../utils/commandIndex";
 import { commandById } from "../utils/commandIndex";
+import { flagTokenToId } from "../utils/flagIndex";
+import { flagById } from "../utils/flagIndex";
 
 function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
@@ -62,9 +64,11 @@ function setCommandIdHandler(commandIdArray) {
 
 
 function setTextHandler(inputText, languageName, nId) {
-    const checkedText = tokenizeText(inputText)
+    setText(inputText); //moved up. text probably should be the same as userInput. Can parse after for other windows. 
+    //const checkedText = tokenizeText(inputText)
+    let checkedText = inputText.split(' ');
+    console.log(checkedText);
     matchText(checkedText, languageName);
-    setText(checkedText);
 }
 /*
 function processText(inputText) {
@@ -80,14 +84,22 @@ function tokenizeText(input) {
 function matchText(textArray, languageName) {
     let commandIdArray = [];
     textArray.forEach(element => {
-        commands.forEach(command => {
-            if (command.shells[languageName].command === element) {
-                commandIdArray.push(command.id);
+        // likely need to split commands and id's before this, or at least check as we go
+        // could check if hyphen at start...that will probaly fail later but for now..will expose issue later so sure
+        if (element[0] == '-') {
+            commandIdArray.push(flagTokenToId[element]);
         }
-    }
-       )});
+        else {
+            commandIdArray.push(commandTokenToId[element]);
+        }
+
+        console.log("commandIdArray", commandIdArray);
+
+})
     setCommandIdHandler(commandIdArray);
-}
+
+};
+
 
     return (
         <>
