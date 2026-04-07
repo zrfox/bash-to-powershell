@@ -5,7 +5,7 @@ import commands from "../data/commands.json";
 import { commandById } from '../utils/commandIndex';
 import { flagById } from '../utils/flagIndex';
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize, activeWindowsBoolean }){
     
     const inputTextAreaId = useId();
 
@@ -34,7 +34,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
     const isActive = nId === activeWindowId;
 
     // this is the problem, it's calling when not active. 
-    const valueText = isActive ? text : getCommandsInCommon(commandIds);
+    const valueText = isActive || !activeWindowsBoolean ? text : getCommandsInCommon(commandIds);
 
     return (
         <>

@@ -14,11 +14,20 @@ function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
 const [activeWindowId, setActiveWindowId] = useState();
+// State for initial page load. Allows display of placeholder text in all windows.
+const [activeWindowsBoolean, setActiveWindowsBoolean] = useState(false);
+// State for inputText
+const [text, setText] = useState(["Type a command here and see the equivalent in another window!"]);
+const [commandIds, setCommandId] = useState([]);
 // maintains uniform window size for all InputWindows
 const [textAreaSize, setTextAreaSize] = useState([400, 400]);
 
-
 function setActiveWindowIdHandler(windowId) {
+    // clear placeholder text once activeWindowId is set.
+    if (activeWindowsBoolean === false) {
+        setText("");
+        setActiveWindowsBoolean(true);
+    }
     setActiveWindowId(windowId);
 }
 
@@ -57,12 +66,9 @@ function getInput() {
 }
 */
 
-// State for inputText
-const [text, setText] = useState([]);
-const [commandIds, setCommandId] = useState([]);
 
 function setCommandIdHandler(commandIdArray) {
-    setCommandId(commandIdArray)
+    setCommandId(commandIdArray);
 }
 
 
@@ -154,6 +160,7 @@ function matchText(textArray, languageName) {
                     text={text}
                     textAreaSize={textAreaSize}
                     setTextAreaSize={setTextAreaSize}
+                    activeWindowsBoolean={activeWindowsBoolean}
                     />
             ))}
         </div>
