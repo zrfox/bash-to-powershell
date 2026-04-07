@@ -14,9 +14,11 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         if (nId == activeWindowId) return;
         let translatedCommands = [];
         console.log("languageName: ", languageName);
+
         commandIds.forEach((commandId) =>{
             if (commandId === undefined) return;
             const commandObj = commandById[commandId];
+            if (commandObj === undefined) return;
             console.log("commandObj: ", commandObj);
             translatedCommands.push(commandObj.shells[languageName].command);
             //translatedCommands.push(commands[commandId].shells[languageName].command);
@@ -28,7 +30,6 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
 
     const isActive = nId === activeWindowId;
 
-    // this is the problem, it's calling when not active. 
     const valueText = isActive ? text : getCommandsInCommon(commandIds);
 
     return (
