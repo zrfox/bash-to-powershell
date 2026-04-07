@@ -11,10 +11,11 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
 
     function getCommandsInCommon(commandIds) {
         console.log("commandIds: ", commandIds);
-        if ((nId == activeWindowId) || commandIds[0] === undefined) return;
+        if (nId == activeWindowId) return;
         let translatedCommands = [];
         console.log("languageName: ", languageName);
         commandIds.forEach((commandId) =>{
+            if (commandId === undefined) return;
             const commandObj = commandById[commandId];
             console.log("commandObj: ", commandObj);
             translatedCommands.push(commandObj.shells[languageName].command);
