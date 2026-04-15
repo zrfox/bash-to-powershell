@@ -21,6 +21,7 @@ const [text, setText] = useState(["Type a command here and see the equivalent in
 const [commandIds, setCommandId] = useState([]);
 // maintains uniform window size for all InputWindows
 const [textAreaSize, setTextAreaSize] = useState([400, 400]);
+const [lockWindows, setLockWindows] = useState(true);
 
 function setActiveWindowIdHandler(windowId) {
     // clear placeholder text once activeWindowId is set.
@@ -79,6 +80,13 @@ function setTextHandler(inputText, languageName, nId) {
     console.log(checkedText);
     matchText(checkedText, languageName);
 }
+
+function setLockWindowsHandler() {
+    return setLockWindows(!lockWindows);
+}
+
+
+
 /*
 function processText(inputText) {
    const cleanedText = tokenizeText(inputText);
@@ -121,23 +129,29 @@ function matchText(textArray, languageName) {
 
     return (
         <>
+        <div className="outside-input-container-right" >
+        </div>
         <div className="input-windows-container">
-        <div className="add-dialog-container">
-            {dialogOpen ? (
-                <div role="dialogue" className="dialogue">
-                    {Object.entries(languages).map(([languageName, data]) => {
-                        return (
-                            <button key={languageName} onClick={() => addInputWindow(languageName)}>
-                            {languageName}
-                            </button>)
-                    }                    
-                    )}
-                    
-                    
-                </div>
-            ) : (<></>)
-        }
-            <button className="add-button" onClick={openDialog}>Add</button>
+            <div>
+                <button className="lock-button" onClick={setLockWindowsHandler}>&#x1F512; Window</button>
+            </div>
+            <div className="add-dialog-container">
+
+                {dialogOpen ? (
+                    <div role="dialogue" className="dialogue">
+                        {Object.entries(languages).map(([languageName, data]) => {
+                            return (
+                                <button key={languageName} onClick={() => addInputWindow(languageName)}>
+                                {languageName}
+                                </button>)
+                        }                    
+                        )}
+                        
+                        
+                    </div>
+                ) : (<></>)
+            }
+                <button className="add-button" onClick={openDialog}>Add</button>
         </div>
         {/*changed languageName attribute to .language from .languageName*/}
             {inputWindows.map(window => (
@@ -160,6 +174,8 @@ function matchText(textArray, languageName) {
                     text={text}
                     textAreaSize={textAreaSize}
                     setTextAreaSize={setTextAreaSize}
+                    lockWindows={lockWindows}
+                    setLockWindows={setLockWindowsHandler}
                     activeWindowsBoolean={activeWindowsBoolean}
                     />
             ))}

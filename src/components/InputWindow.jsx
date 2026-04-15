@@ -5,11 +5,12 @@ import commands from "../data/commands.json";
 import { commandById } from '../utils/commandIndex';
 import { flagById } from '../utils/flagIndex';
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize, activeWindowsBoolean }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize, activeWindowsBoolean, lockWindows, setLockWindows }){
     
     const inputTextAreaId = useId();
 
     function setTextAreaSizeHandler(e) {
+        if (lockWindows == false) return;
         console.log("setTextArea called!");
         setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
     }

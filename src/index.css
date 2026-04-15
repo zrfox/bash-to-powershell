@@ -111,3 +111,14 @@ textarea {
   flex-grow: 1;
 
 }
+
+.outside-input-container-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.lock-button {
+  display: inline-flex;
+
+
+}
