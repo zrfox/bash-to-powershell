@@ -126,6 +126,9 @@ function matchText(textArray, languageName) {
 
 };
 
+function handleClickOutsideDialog(e) {
+
+}
 
     return (
         <>
@@ -133,9 +136,9 @@ function matchText(textArray, languageName) {
         </div>
         <div className="input-windows-container">
             <div>
-                <button className="lock-button" onClick={setLockWindowsHandler}>&#x1F512; Window</button>
+                <button className="lock-button" onClick={setLockWindowsHandler}>{lockWindows ? '\u{1F512}' : '\u{1F513}'} Window</button>
             </div>
-            <div className="add-dialog-container">
+            <div className="add-dialog-container" onClick={() => handleClickOutsideDialog(e)}>
 
                 {dialogOpen ? (
                     <div role="dialogue" className="dialogue">
@@ -146,6 +149,8 @@ function matchText(textArray, languageName) {
                                 </button>)
                         }                    
                         )}
+                                    <button className='close-button' onClick={closeDialog}>x</button>
+
                         
                         
                     </div>

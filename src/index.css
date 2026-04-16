@@ -92,7 +92,7 @@ textarea {
   display: flex;
   align-self: flex-end;
   margin: 0;
-  bottom: 100%;        /* sit ABOVE the button */
+  bottom: 100%;        /* sit ABOVE the button - bottom = distance of bottom edge of child and bottom edge of parent. Directly on top is the max distance. */
  
 }
 
@@ -103,13 +103,17 @@ textarea {
   justify-content: center;
 }
 
-.close-button {
+.input-window {
  
-  display:flex;
-  justify-self: flex-end;
-  text-align: center;
-  flex-grow: 1;
+}
 
+.close-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-button {
+  text-align: center;
 }
 
 .outside-input-container-right {
@@ -118,7 +122,7 @@ textarea {
 }
 
 .lock-button {
-  display: inline-flex;
-
+  /* Allows coloring of bitmap/image lock emoji */
+    filter: grayscale(100%); 
 
 }
