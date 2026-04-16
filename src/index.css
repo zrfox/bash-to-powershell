@@ -94,7 +94,7 @@ textarea {
   display: flex;
   align-self: flex-end;
   margin: 0;
-  bottom: 100%;        /* sit ABOVE the button */
+  bottom: 100%;        /* sit ABOVE the button - bottom = distance of bottom edge of child and bottom edge of parent. Directly on top is the max distance. */
  
 }
 
@@ -106,13 +106,25 @@ textarea {
 }
 
 .input-window {
+ 
+}
+
+.close-button-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .close-button {
- 
-  display:flex;
-  justify-self: flex-end;
   text-align: center;
-  flex-grow: 1;
+}
+
+.outside-input-container-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.lock-button {
+  /* Allows coloring of bitmap/image lock emoji */
+    filter: grayscale(100%); 
 
 }

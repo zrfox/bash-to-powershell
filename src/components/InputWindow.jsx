@@ -46,7 +46,9 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
     return (
         <>
         <div className='input-window'>
+            <div className='close-button-container'>
             <button className='close-button' onClick={onRemove}>x</button>
+            </div>
             <div>{languageName}</div>
             <label htmlFor={inputTextAreaId}></label>
             <textarea

@@ -103,26 +103,35 @@ function matchText(textArray, languageName) {
 
 };
 
+function handleClickOutsideDialog(e) {
+
+}
 
     return (
         <>
         <div className="input-windows-container">
-        <div className="add-dialog-container">
-            {dialogOpen ? (
-                <div role="dialogue" className="dialogue">
-                    {Object.entries(languages).map(([languageName, data]) => {
-                        return (
-                            <button key={languageName} onClick={() => addInputWindow(languageName)}>
-                            {languageName}
-                            </button>)
-                    }                    
-                    )}
-                    
-                    
-                </div>
-            ) : (<></>)
-        }
-            <button className="add-button" onClick={openDialog}>Add</button>
+            <div>
+                <button className="lock-button" onClick={setLockWindowsHandler}>{lockWindows ? '\u{1F512}' : '\u{1F513}'} Window</button>
+            </div>
+            <div className="add-dialog-container" onClick={() => handleClickOutsideDialog(e)}>
+
+                {dialogOpen ? (
+                    <div role="dialogue" className="dialogue">
+                        {Object.entries(languages).map(([languageName, data]) => {
+                            return (
+                                <button key={languageName} onClick={() => addInputWindow(languageName)}>
+                                {languageName}
+                                </button>)
+                        }                    
+                        )}
+                                    <button className='close-button' onClick={closeDialog}>x</button>
+
+                        
+                        
+                    </div>
+                ) : (<></>)
+            }
+                <button className="add-button" onClick={openDialog}>Add</button>
         </div>
         {/*changed languageName attribute to .language from .languageName*/}
             {inputWindows.map(window => (
