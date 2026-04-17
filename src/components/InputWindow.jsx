@@ -5,7 +5,7 @@ import commands from "../data/commands.json";
 import { commandById } from '../utils/commandIndex';
 import { flagById } from '../utils/flagIndex';
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize, lockWindows, setLockWindows }){
     
     const inputTextAreaId = useId();
 

@@ -17,6 +17,10 @@ const [activeWindowId, setActiveWindowId] = useState();
 // maintains uniform window size for all InputWindows
 const [textAreaSize, setTextAreaSize] = useState([400, 400]);
 
+const [lockWindows, setLockWindows] = useState(true);
+function setLockWindowsHandler() {
+    return setLockWindows(!lockWindows);
+}
 
 function setActiveWindowIdHandler(windowId) {
     setActiveWindowId(windowId);
@@ -154,6 +158,8 @@ function handleClickOutsideDialog(e) {
                     text={text}
                     textAreaSize={textAreaSize}
                     setTextAreaSize={setTextAreaSize}
+                    lockWindows={lockWindows}
+                    setLockWindows={setLockWindowsHandler}
                     />
             ))}
         </div>
