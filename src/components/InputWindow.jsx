@@ -15,16 +15,16 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         console.log("setTextArea called!");
         setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
     }
-
+    //commandIds are currently objects to keep cmds and flgs together
     function getCommandsInCommon(commandIds) {
         console.log("commandIds: ", commandIds);
         if (nId == activeWindowId) return;
         let translatedCommands = [];
         console.log("languageName: ", languageName);
         commandIds.forEach((commandId) =>{
-            if (commandId === undefined) return;
+            if (commandId === undefined || commandId.commandId === undefined) return;
             console.log("Test cd: ", commandById["change-directory"]);
-            const commandObj = commandById[commandId];
+            const commandObj = commandById[commandId.commandId];
             console.log("commandObj: ", commandObj);
             translatedCommands.push(commandObj.shells[languageName].command);
             //translatedCommands.push(commands[commandId].shells[languageName].command);
