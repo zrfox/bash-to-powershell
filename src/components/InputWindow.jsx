@@ -10,7 +10,8 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
     const inputTextAreaId = useId();
 
     function setTextAreaSizeHandler(e) {
-        if (lockWindows == false) return;
+        //console.log("e.target.offsetheight: ", e.target.offsetHeight)
+        if (lockWindows == false || Math.abs(textAreaSize[1] - e.target.offsetHeight) < 10) return;
         console.log("setTextArea called!");
         setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
     }
@@ -22,6 +23,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         console.log("languageName: ", languageName);
         commandIds.forEach((commandId) =>{
             if (commandId === undefined) return;
+            console.log("Test cd: ", commandById["change-directory"]);
             const commandObj = commandById[commandId];
             console.log("commandObj: ", commandObj);
             translatedCommands.push(commandObj.shells[languageName].command);
