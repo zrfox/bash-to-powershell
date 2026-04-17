@@ -10,6 +10,11 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
     const inputTextAreaId = useId();
 
     function setTextAreaSizeHandler(e) {
+<<<<<<< HEAD
+=======
+        //console.log("e.target.offsetheight: ", e.target.offsetHeight)
+        if (lockWindows == false || Math.abs(textAreaSize[1] - e.target.offsetHeight) < 10) return;
+>>>>>>> df76de4 (Fix InputWindow growing on mouse click.)
         console.log("setTextArea called!");
         setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
     }
@@ -22,6 +27,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
 
         commandIds.forEach((commandId) =>{
             if (commandId === undefined) return;
+            console.log("Test cd: ", commandById["change-directory"]);
             const commandObj = commandById[commandId];
             if (commandObj === undefined) return;
             console.log("commandObj: ", commandObj);
