@@ -21,13 +21,24 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         if (nId == activeWindowId) return;
         let translatedCommands = [];
         console.log("languageName: ", languageName);
-        commandIds.forEach((commandId) =>{
+        commandIds.forEach((commandId) => {
             if (commandId === undefined || commandId.commandId === undefined) return;
-            console.log("Test cd: ", commandById["change-directory"]);
+            //console.log("Test cd: ", commandById["change-directory"]);
             const commandObj = commandById[commandId.commandId];
             console.log("commandObj: ", commandObj);
             translatedCommands.push(commandObj.shells[languageName].command);
             //translatedCommands.push(commands[commandId].shells[languageName].command);
+
+            if (commandId.flagIds !== undefined) {
+                commandId.flagIds.forEach((flagId => {
+                    console.log("!!!flagId: ", flagId);
+                    const flagObject = flagById[flagId];
+                    console.log("flagObject: ", flagObject);
+                    translatedCommands.push(flagObject.shells[languageName])
+
+                }))
+            }
+
         }
         )
         const translatedStr = JSON.stringify(translatedCommands);

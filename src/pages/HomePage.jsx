@@ -76,9 +76,9 @@ function setCommandIdHandler(commandIdArray) {
 function setTextHandler(inputText, languageName, nId) {
     setText(inputText); //moved up. text probably should be the same as userInput. Can parse after for other windows. 
     //const checkedText = tokenizeText(inputText)
-    let checkedText = inputText.split(' ');
-    console.log(checkedText);
-    matchText(checkedText, languageName);
+    let inputTextArray = inputText.split(' ');
+    console.log(inputTextArray);
+    matchText(inputTextArray, languageName);
 }
 
 function setLockWindowsHandler() {
@@ -100,25 +100,33 @@ function tokenizeText(input) {
 
 function matchText(textArray, languageName) {
     let result = [];
-    let currentEntry = null;
+    let currentCommand = null;
+    let nextCommand = null;
+
     textArray.forEach(element => {
+        console.log("ELEMENT", element[0]);
+
+        // get command first, then work within command's context
+
+        
+
         // likely need to split commands and id's before this, or at least check as we go
         // could check if hyphen at start...that will probaly fail later but for now..will expose issue later so sure
         if (element[0] == '-') {
-            if (currentEntry) {
+            if (currentCommand) {
                 const flagId = flagTokenToId[`${languageName}: ${element}`];
-                if (flagId) currentEntry.flagIds.push(flagId);
+                if (flagId) currentCommand.flagIds.push(flagId);
+                //result.push(currentCommand);
             }
            // commandIdArray.push(flagTokenToId[element]);
         }
         else {
             const commandId = commandTokenToId[element];
             if (commandId) {
-                currentEntry = { commandId, flagIds: [] };
-                result.push(currentEntry);
+                currentCommand = { commandId, flagIds: [] };
+                result.push(currentCommand);
             }
         }
-
         console.log("result", result);
 
 })
