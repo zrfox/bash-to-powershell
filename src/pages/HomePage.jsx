@@ -86,28 +86,71 @@ function setLockWindowsHandler() {
 }
 
 
-
-/*
-function processText(inputText) {
-   const cleanedText = tokenizeText(inputText);
-    return cleanedText;
-    
-}*/
-
-function tokenizeText(input) {
-    return input.toLowerCase().split(' ');
-}
-
 function matchText(textArray, languageName) {
-    let result = [];
-    let currentCommand = null;
+    let resultArr = [];
+    let currentCommandArr = [];
+    // keep track of currentCommandObject for checking valid flags and options (context)
+    let currentCommandObject = null;
+    let commandIdCheck = null;
     let nextCommand = null;
 
-    textArray.forEach(element => {
-        console.log("ELEMENT", element[0]);
+    // length + 1 to make sure else case to push to resultArr occurs at end of last command
+    for (let i = 0; i < textArray.length + 1; i++) {
+        // might go out of bounds with length + 1
+        const element = textArray[i]
+        console.log("ELEMENT", element);
 
         // get command first, then work within command's context
+        commandIdCheck = commandTokenToId[element];
+        console.log("commandIdCheck: ", commandIdCheck);
 
+        // if not a command and there isn't a currentCommandObject for context...
+        // then this is invalid and continue
+        if (!commandIdCheck && !currentCommandObject) {
+            continue;
+            // or return invalid input? 
+            // shouldnt do this^ because while typing most input is invalid
+        }
+
+        // null/undefined results to false, right? maybe check explicitly for undefined. Undefined falsy in js
+        if (commandIdCheck) {
+            currentCommandObject = commandById[commandIdCheck];
+            console.log("currentCommandObject: ", currentCommandObject);
+            currentCommandArr.push(currentCommandObject)
+            continue;
+        }
+        
+
+        // check flags of currentCommandObject
+        else if (currentCommandObject && currentCommandObject.flags.some(flag => flag.id === flagTokenToId[element])) {
+            currentCommandArr.push(flagById[flagTokenToId[element]])
+        }
+        // check options of currentCommandObject
+        //else if () {
+
+        //}
+
+        // either unrecognized token or end of current command. if following token is not a new command or pipe/operator then it's probably invalid.  
+        // this won't ever be reached because the first condition would be true for this case
+        // what I do want, is to see that the element is not in the command's context
+        // and then we loop on that again if we realize this. 
+        // and before the loop we push to resultArr
+        // we really have to fix the problem of the commandIdCheck setting and ruining the context of the current command
+        else //if (commandTokenToId[element]) 
+        {
+            resultArr.push(currentCommandArr);
+            currentCommandArr = [];
+            currentCommandObject = null;
+            i--;
+
+        }    
+        
+        //else {
+            // can get unknown value and replace with unknown or keep for checking suggestions later on
+        //}
+
+        /*
+        
         
 
         // likely need to split commands and id's before this, or at least check as we go
@@ -127,11 +170,14 @@ function matchText(textArray, languageName) {
                 result.push(currentCommand);
             }
         }
-        console.log("result", result);
+            */
+        
 
-})
-    setCommandIdHandler(result);
 
+    }
+    console.log("currentCommandArr: ", currentCommandArr)
+        console.log("result", resultArr);
+    setCommandIdHandler(resultArr);
 };
 
 function handleClickOutsideDialog(e) {

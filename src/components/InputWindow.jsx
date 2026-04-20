@@ -22,25 +22,36 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         let translatedCommands = [];
         console.log("languageName: ", languageName);
         commandIds.forEach((commandId) => {
-            if (commandId === undefined || commandId.commandId === undefined) return;
-            //console.log("Test cd: ", commandById["change-directory"]);
-            const commandObj = commandById[commandId.commandId];
+            console.log("commandId", commandId)
+            commandId.forEach((obj) => {
+                console.log("1234234obj: ", obj);
+                if (obj === undefined || obj.id === undefined) return;
+            console.log("Test cd: ", commandById["change-directory"]);
+            const commandObj = commandById[obj.id];
             console.log("commandObj: ", commandObj);
-            translatedCommands.push(commandObj.shells[languageName].command);
+            if (commandObj) {
+                translatedCommands.push(commandObj.shells[languageName].command);
+
+            }
             //translatedCommands.push(commands[commandId].shells[languageName].command);
 
-            if (commandId.flagIds !== undefined) {
-                commandId.flagIds.forEach((flagId => {
-                    console.log("!!!flagId: ", flagId);
-                    const flagObject = flagById[flagId];
-                    console.log("flagObject: ", flagObject);
-                    translatedCommands.push(flagObject.shells[languageName])
+            // ! obj might not havbe flagIds
+            // this is i think trying to use command context...but we don't need to do this here
+            // we've already resolve context before this. 
+            // however, we may need to do context handling for the target language
+            // right now we are still mostly replacing one token for another, 
+            // doesn't necessarily tell us how to do things if they aren't done in an obvious 1:1 way
+            else if (obj.id !== undefined) {
+                    console.log("!!!flag obj: ", obj);
+                    translatedCommands.push(obj.shells[languageName])
 
-                }))
-            }
+                }
+            })
+            
+        
 
-        }
-        )
+        })
+        
         const translatedStr = JSON.stringify(translatedCommands);
         return translatedStr;            
     }

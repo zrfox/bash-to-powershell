@@ -22,7 +22,7 @@ commands.forEach(cmd => {
         })
     })
 })
-console.log(flagTokenToId, '\n', flagById);
+console.log("flagTokenToId: ",flagTokenToId, '\n', "flagById: ", flagById);
 
 // flags have different meanings depending on the command, especially in bash. 
 // this means. when parsing user input, we will look up the flagId after getting the
