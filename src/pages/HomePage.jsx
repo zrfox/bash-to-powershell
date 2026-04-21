@@ -20,7 +20,7 @@ const [activeWindowsBoolean, setActiveWindowsBoolean] = useState(false);
 const [text, setText] = useState(["Type a command here and see the equivalent in another window!"]);
 const [commandIds, setCommandId] = useState([]);
 // maintains uniform window size for all InputWindows
-const [textAreaSize, setTextAreaSize] = useState([400, 400]);
+const [textAreaSize, setTextAreaSize] = useState([700, 700]);
 const [lockWindows, setLockWindows] = useState(true);
 
 function setActiveWindowIdHandler(windowId) {
