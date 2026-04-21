@@ -18,7 +18,7 @@ commands.forEach(cmd => {
     })
 })
 
-console.log(commandTokenToId, '\n', commandById);
+console.log("commandTokenToId: ",commandTokenToId, '\n',"commandById: ", commandById);
 
 
 

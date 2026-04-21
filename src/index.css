@@ -71,12 +71,10 @@ button:focus-visible {
 textarea {
   width: 400px;
   height: 400px;
-}
-
-/*deleted this too */
-.add-window {
   
 }
+
+
 
 /* dialog / modal */
 
