@@ -20,13 +20,13 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         console.log("commandIds: ", commandIds);
         if (nId == activeWindowId) return;
         let translatedCommands = [];
-        console.log("languageName: ", languageName);
+        //console.log("languageName: ", languageName);
         commandIds.forEach((commandId) => {
             console.log("commandId", commandId)
             commandId.forEach((obj) => {
-                console.log("1234234obj: ", obj);
+                //console.log("1234234obj: ", obj);
                 if (obj === undefined || obj.id === undefined) return;
-            console.log("Test cd: ", commandById["change-directory"]);
+            //console.log("Test cd: ", commandById["change-directory"]);
             const commandObj = commandById[obj.id];
             console.log("commandObj: ", commandObj);
             if (commandObj) {
@@ -42,7 +42,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
             // right now we are still mostly replacing one token for another, 
             // doesn't necessarily tell us how to do things if they aren't done in an obvious 1:1 way
             else if (obj.id !== undefined) {
-                    console.log("!!!flag obj: ", obj);
+                    //console.log("!!!flag obj: ", obj);
                     translatedCommands.push(obj.shells[languageName])
 
                 }
@@ -53,12 +53,15 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         })
         
         const translatedStr = JSON.stringify(translatedCommands);
-        return translatedStr;            
+        const cleanedTranslatedStr = translatedStr.replaceAll(/[\[\]\"\"]/g, "");
+        const spacedTranslatedStr = cleanedTranslatedStr.replaceAll(/,/g, " ");
+        //console.log("spacedTranslatedStr: ", spacedTranslatedStr);
+        return spacedTranslatedStr;            
     }
 
     const isActive = nId === activeWindowId;
 
-    // this is the problem, it's calling when not active. 
+    // if window is not active, it's a target window that needs translation/interpreting.
     const valueText = isActive || !activeWindowsBoolean ? text : getCommandsInCommon(commandIds);
 
     return (
