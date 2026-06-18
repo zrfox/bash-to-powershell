@@ -1,8 +1,6 @@
 # bash-to-powershell
 Translate common shell commands between Bash, PowerShell, and more. WIP.
 
-This project is source-visible but not open source.
-All rights reserved unless otherwise stated.
 
 
 
