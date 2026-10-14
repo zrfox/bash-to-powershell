@@ -90,6 +90,25 @@ function setLockWindowsHandler() {
     return setLockWindows(!lockWindows);
 }
 
+// Normalize a token for lookup according to the input shell's case rules.
+// Mirrors how the indexes were built (lowercase keys for case-insensitive shells).
+function normalizeToken(token, languageName) {
+    if (typeof token !== "string") return token;
+    return languages[languageName]?.caseSensitive ? token : token.toLowerCase();
+}
+
+// Resolve a flag within the current command's context, using the input shell's token.
+// Flags are taken from the command itself, so shared ids like "recursive"
+// return the correct command's flag (ls -R vs cp -r).
+function findFlagInCommand(commandObject, token, languageName) {
+    if (!commandObject || typeof token !== "string") return undefined;
+    const normalized = normalizeToken(token, languageName);
+    return commandObject.flags.find(flag => {
+        const flagToken = flag.shells[languageName];
+        return flagToken !== undefined &&
+               normalizeToken(flagToken, languageName) === normalized;
+    });
+}
 
 function matchText(textArray, languageName) {
     let resultArr = [];
@@ -99,87 +118,39 @@ function matchText(textArray, languageName) {
     let commandIdCheck = null;
     let nextCommand = null;
 
-    // length + 1 to make sure else case to push to resultArr occurs at end of last command
     for (let i = 0; i < textArray.length + 1; i++) {
-        // might go out of bounds with length + 1
-        const element = textArray[i]
-        console.log("ELEMENT", element);
+    const element = textArray[i]
+    console.log("ELEMENT", element);
 
-        // get command first, then work within command's context
-        commandIdCheck = commandTokenToId[element];
-        console.log("commandIdCheck: ", commandIdCheck);
+    // CHANGED: normalize before lookup so "Get-ChildItem" matches "get-childitem"
+    commandIdCheck = commandTokenToId[normalizeToken(element, languageName)];
+    console.log("commandIdCheck: ", commandIdCheck);
 
-        // if not a command and there isn't a currentCommandObject for context...
-        // then this is invalid and continue
-        if (!commandIdCheck && !currentCommandObject) {
-            continue;
-            // or return invalid input? 
-            // shouldnt do this^ because while typing most input is invalid
-        }
-
-        // null/undefined results to false, right? maybe check explicitly for undefined. Undefined falsy in js
-        if (commandIdCheck) {
-            currentCommandObject = commandById[commandIdCheck];
-            console.log("currentCommandObject: ", currentCommandObject);
-            currentCommandArr.push(currentCommandObject)
-            continue;
-        }
-        
-
-        // check flags of currentCommandObject
-        else if (currentCommandObject && currentCommandObject.flags.some(flag => flag.id === flagTokenToId[element])) {
-            currentCommandArr.push(flagById[flagTokenToId[element]])
-        }
-        // check options of currentCommandObject
-        //else if () {
-
-        //}
-
-        // either unrecognized token or end of current command. if following token is not a new command or pipe/operator then it's probably invalid.  
-        // this won't ever be reached because the first condition would be true for this case
-        // what I do want, is to see that the element is not in the command's context
-        // and then we loop on that again if we realize this. 
-        // and before the loop we push to resultArr
-        // we really have to fix the problem of the commandIdCheck setting and ruining the context of the current command
-        else //if (commandTokenToId[element]) 
-        {
-            resultArr.push(currentCommandArr);
-            currentCommandArr = [];
-            currentCommandObject = null;
-            i--;
-
-        }    
-        
-        //else {
-            // can get unknown value and replace with unknown or keep for checking suggestions later on
-        //}
-
-        /*
-        
-        
-
-        // likely need to split commands and id's before this, or at least check as we go
-        // could check if hyphen at start...that will probaly fail later but for now..will expose issue later so sure
-        if (element[0] == '-') {
-            if (currentCommand) {
-                const flagId = flagTokenToId[`${languageName}: ${element}`];
-                if (flagId) currentCommand.flagIds.push(flagId);
-                //result.push(currentCommand);
-            }
-           // commandIdArray.push(flagTokenToId[element]);
-        }
-        else {
-            const commandId = commandTokenToId[element];
-            if (commandId) {
-                currentCommand = { commandId, flagIds: [] };
-                result.push(currentCommand);
-            }
-        }
-            */
-        
-
-
+    if (!commandIdCheck && !currentCommandObject) {
+        continue;
     }
+
+    // CHANGED: resolve the flag from the current command's own flag list
+    const matchedFlag = findFlagInCommand(currentCommandObject, element, languageName);
+
+    if (commandIdCheck) {
+        currentCommandObject = commandById[commandIdCheck];
+        console.log("currentCommandObject: ", currentCommandObject);
+        currentCommandArr.push(currentCommandObject)
+        continue;
+    }
+    // CHANGED: push the command's own flag object instead of the global flagById entry
+    else if (matchedFlag) {
+        currentCommandArr.push(matchedFlag);
+    }
+    else {
+        resultArr.push(currentCommandArr);
+        currentCommandArr = [];
+        currentCommandObject = null;
+        i--;
+    }
+}
+    
     console.log("currentCommandArr: ", currentCommandArr)
         console.log("result", resultArr);
     setCommandIdHandler(resultArr);
