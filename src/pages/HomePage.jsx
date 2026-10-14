@@ -10,6 +10,9 @@ import { commandById } from "../utils/commandIndex";
 import { flagTokenToId } from "../utils/flagIndex";
 import { flagById } from "../utils/flagIndex";
 
+
+import { ENABLED_SHELLS } from "../config/shells";
+
 function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
@@ -192,26 +195,21 @@ function handleClickOutsideDialog(e) {
             <div>
                 <button className="lock-button" onClick={setLockWindowsHandler}>{lockWindows ? '\u{1F512}' : '\u{1F513}'} Window</button>
             </div>
-            <div className="add-dialog-container" onClick={() => handleClickOutsideDialog(e)}>
-
-                {dialogOpen ? (
-                    <div role="dialogue" className="dialogue">
-                        {Object.entries(languages).map(([languageName, data]) => {
-                            return (
-                                <button key={languageName} onClick={() => addInputWindow(languageName)}>
-                                {languageName}
-                                </button>)
-                        }                    
-                        )}
-                                    <button className='close-button' onClick={closeDialog}>x</button>
-
-                        
-                        
-                    </div>
-                ) : (<></>)
-            }
-                <button className="add-button" onClick={openDialog}>Add</button>
+            <div className="add-dialog-container" onClick={handleClickOutsideDialog}>
+    {dialogOpen ? (
+        <div role="dialog" className="dialogue">
+            {Object.entries(languages)
+                .filter(([languageName]) => ENABLED_SHELLS.some(shell => shell.id === languageName))
+                .map(([languageName]) => (
+                    <button key={languageName} onClick={() => addInputWindow(languageName)}>
+                        {languageName}
+                    </button>
+                ))}
+            <button className="close-button" onClick={closeDialog}>x</button>
         </div>
+    ) : null}
+    <button className="add-button" onClick={openDialog}>Add</button>
+</div>
         {/*changed languageName attribute to .language from .languageName*/}
             {inputWindows.map(window => (
                 <InputWindow 
