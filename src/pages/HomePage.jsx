@@ -13,6 +13,10 @@ import { flagById } from "../utils/flagIndex";
 
 import { ENABLED_SHELLS } from "../config/shells";
 
+import { useSyncedTextAreaSize } from "../hooks/useSyncedTextAreaSize";
+
+
+
 function HomePage(){
 const [inputWindows, setInputWindows] = useState([{id: nanoid(), language: "bash"}, {id: nanoid(), language: "powershell"}]);
 const [dialogOpen, setDialog] = useState(false);
@@ -23,8 +27,11 @@ const [activeWindowsBoolean, setActiveWindowsBoolean] = useState(false);
 const [text, setText] = useState(["Type a command here and see the equivalent in another window!"]);
 const [commandIds, setCommandId] = useState([]);
 // maintains uniform window size for all InputWindows
-const [textAreaSize, setTextAreaSize] = useState([700, 700]);
+
+
+// delete:  const [textAreaSize, setTextAreaSize] = useState([700, 700]);
 const [lockWindows, setLockWindows] = useState(true);
+const registerTextArea = useSyncedTextAreaSize(lockWindows); // must come after lockWindows
 
 function setActiveWindowIdHandler(windowId, displayedText, languageName) {
     if (!activeWindowsBoolean) {
@@ -202,8 +209,7 @@ function handleClickOutsideDialog(e) {
                     setActiveWindowIdHandler={setActiveWindowIdHandler}
                     activeWindowId={activeWindowId}
                     text={text}
-                    textAreaSize={textAreaSize}
-                    setTextAreaSize={setTextAreaSize}
+                    registerTextArea={registerTextArea}
                     lockWindows={lockWindows}
                     setLockWindows={setLockWindowsHandler}
                     activeWindowsBoolean={activeWindowsBoolean}

@@ -1,20 +1,26 @@
-import { useState, useId } from 'react'
+import { useState, useId, useRef, useLayoutEffect } from 'react'
+
 
 import commands from "../data/commands.json";
 
 import { commandById } from '../utils/commandIndex';
 import { flagById } from '../utils/flagIndex';
 
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, textAreaSize, setTextAreaSize, activeWindowsBoolean, lockWindows, setLockWindows }){
+function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, registerTextArea, activeWindowsBoolean, lockWindows, setLockWindows }){
     
-    const inputTextAreaId = useId();
+// 2. props: replace textAreaSize and setTextAreaSize with registerTextArea
+// 3. delete setTextAreaSizeHandler, and add under useId():
+// Registers on mount (including newly added windows); the returned cleanup
+// stops observing this textarea when the window is closed.
 
-    function setTextAreaSizeHandler(e) {
-        //console.log("e.target.offsetheight: ", e.target.offsetHeight)
-        if (lockWindows == false || Math.abs(textAreaSize[1] - e.target.offsetHeight) < 10) return;
-        console.log("setTextArea called!");
-        setTextAreaSize([e.target.offsetWidth, e.target.offsetHeight])
-    }
+
+
+    const inputTextAreaId = useId();
+const textAreaRef = useRef(null);
+
+useLayoutEffect(() => registerTextArea(textAreaRef.current), [registerTextArea]);
+
+
     //commandIds are currently objects to keep cmds and flgs together
     function translateTokens(commandIds) {
   const tokens = [];
@@ -45,6 +51,7 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
             <div>{languageName}</div>
             <label htmlFor={inputTextAreaId}></label>
             <textarea
+    ref={textAreaRef}
     id={inputTextAreaId}
     name='inputTextArea'
     onFocus={() => {
@@ -54,8 +61,6 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
         if (isActive) setTextHandler(e.target.value, languageName, nId);
     }}
     value={valueText}
-    onMouseUp={setTextAreaSizeHandler}
-    style={{ width: textAreaSize[0], height: textAreaSize[1] }}
 />
         </div>
         </>
