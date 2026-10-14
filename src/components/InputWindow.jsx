@@ -45,16 +45,18 @@ function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWin
             <div>{languageName}</div>
             <label htmlFor={inputTextAreaId}></label>
             <textarea
-                id={inputTextAreaId}
-                name='inputTextArea'
-                onClick={() => setActiveWindowIdHandler(nId)}
-                onChange={(e) => {if(activeWindowId == nId) {
-                    setTextHandler(e.target.value, languageName, nId)}}
-                }
-                value={valueText}
-                onMouseUp={setTextAreaSizeHandler}
-                style={{width: textAreaSize[0],  height: textAreaSize[1]}}
-            />
+    id={inputTextAreaId}
+    name='inputTextArea'
+    onFocus={() => {
+        if (!isActive) setActiveWindowIdHandler(nId, valueText, languageName);
+    }}
+    onChange={(e) => {
+        if (isActive) setTextHandler(e.target.value, languageName, nId);
+    }}
+    value={valueText}
+    onMouseUp={setTextAreaSizeHandler}
+    style={{ width: textAreaSize[0], height: textAreaSize[1] }}
+/>
         </div>
         </>
     );

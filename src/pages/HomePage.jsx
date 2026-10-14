@@ -26,15 +26,17 @@ const [commandIds, setCommandId] = useState([]);
 const [textAreaSize, setTextAreaSize] = useState([700, 700]);
 const [lockWindows, setLockWindows] = useState(true);
 
-function setActiveWindowIdHandler(windowId) {
-    // clear placeholder text once activeWindowId is set.
-    if (activeWindowsBoolean === false) {
+function setActiveWindowIdHandler(windowId, displayedText, languageName) {
+    if (!activeWindowsBoolean) {
+        // first activation: clear placeholder text
         setText("");
         setActiveWindowsBoolean(true);
+    } else {
+        // keep this window's current content and re-translate the others from it
+        setTextHandler(displayedText, languageName, windowId);
     }
     setActiveWindowId(windowId);
 }
-
 // idk if this is right, if i can just set true? Could just change to one function that does !current state. 
 function openDialog() {
     setDialog(true);
