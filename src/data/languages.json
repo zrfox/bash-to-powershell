@@ -1,14 +1,26 @@
 {
-        "bash": {
-            "id": 1,
-            "caseSensitive": true
-        },
-        "powershell": {
-            "id": 2,
-            "caseSensitive": false
-        },
-        "cmd": {
-            "id": 3,
-            "caseSensitive": false
-        }
+    "bash": {
+        "id": 1,
+        "label": "Bash",
+        "caseSensitive": true,
+        "escapeChar": "\\",
+        "flagPrefixes": ["--", "-"],
+        "bundledShortFlags": true
+    },
+    "powershell": {
+        "id": 2,
+        "label": "PowerShell",
+        "caseSensitive": false,
+        "escapeChar": "`",
+        "flagPrefixes": ["-"],
+        "bundledShortFlags": false
+    },
+    "cmd": {
+        "id": 3,
+        "label": "CMD",
+        "caseSensitive": false,
+        "escapeChar": "^",
+        "flagPrefixes": ["/", "-"],
+        "bundledShortFlags": false
+    }
 }

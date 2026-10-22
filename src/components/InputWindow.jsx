@@ -1,69 +1,55 @@
-import { useState, useId, useRef, useLayoutEffect } from 'react'
+import { useId, useRef, useLayoutEffect } from "react";
 
+import { render } from "../translator/index.js";
 
-import commands from "../data/commands.json";
-
-import { commandById } from '../utils/commandIndex';
-import { flagById } from '../utils/flagIndex';
-
-function InputWindow({ onRemove, languageName, setTextHandler, nId, setActiveWindowIdHandler, commandIds, activeWindowId, text, registerTextArea, activeWindowsBoolean, lockWindows, setLockWindows }){
-    
-// 2. props: replace textAreaSize and setTextAreaSize with registerTextArea
-// 3. delete setTextAreaSizeHandler, and add under useId():
-// Registers on mount (including newly added windows); the returned cleanup
-// stops observing this textarea when the window is closed.
-
-
-
+function InputWindow({
+    onRemove,
+    languageName,
+    setTextHandler,
+    nId,
+    setActiveWindowIdHandler,
+    parsedLine,
+    activeWindowId,
+    text,
+    registerTextArea,
+    activeWindowsBoolean,
+}) {
     const inputTextAreaId = useId();
-const textAreaRef = useRef(null);
+    const textAreaRef = useRef(null);
 
-useLayoutEffect(() => registerTextArea(textAreaRef.current), [registerTextArea]);
-
-
-    //commandIds are currently objects to keep cmds and flgs together
-    function translateTokens(commandIds) {
-  const tokens = [];
-  for (const group of commandIds) {
-    for (const obj of group) {
-      if (!obj?.id) continue;
-      const commandObj = commandById[obj.id];
-      const translated = commandObj
-        ? commandObj.shells?.[languageName]?.command
-        : obj.shells?.[languageName];
-      tokens.push(translated ?? `<no ${languageName} equivalent: ${obj.id}>`);
-    }
-  }
-  return tokens.join(" ");
-}
+    // Registers on mount (including newly added windows); the returned cleanup
+    // stops observing this textarea when the window is closed.
+    useLayoutEffect(() => registerTextArea(textAreaRef.current), [registerTextArea]);
 
     const isActive = nId === activeWindowId;
 
-    // if window is not active, it's a target window that needs translation/interpreting.
-    const valueText = isActive || !activeWindowsBoolean ? text : translateTokens(commandIds);
+    // The active window shows what the user typed; every other window renders
+    // the shared parse tree into its own shell.
+    const valueText =
+        isActive || !activeWindowsBoolean ? text : render(parsedLine, languageName);
 
     return (
-        <>
-        <div className='input-window'>
-            <div className='close-button-container'>
-            <button className='close-button' onClick={onRemove}>x</button>
+        <div className="input-window">
+            <div className="close-button-container">
+                <button className="close-button" onClick={onRemove}>
+                    x
+                </button>
             </div>
             <div>{languageName}</div>
             <label htmlFor={inputTextAreaId}></label>
             <textarea
-    ref={textAreaRef}
-    id={inputTextAreaId}
-    name='inputTextArea'
-    onFocus={() => {
-        if (!isActive) setActiveWindowIdHandler(nId, valueText, languageName);
-    }}
-    onChange={(e) => {
-        if (isActive) setTextHandler(e.target.value, languageName, nId);
-    }}
-    value={valueText}
-/>
+                ref={textAreaRef}
+                id={inputTextAreaId}
+                name="inputTextArea"
+                onFocus={() => {
+                    if (!isActive) setActiveWindowIdHandler(nId, valueText, languageName);
+                }}
+                onChange={e => {
+                    if (isActive) setTextHandler(e.target.value, languageName);
+                }}
+                value={valueText}
+            />
         </div>
-        </>
     );
 }
 

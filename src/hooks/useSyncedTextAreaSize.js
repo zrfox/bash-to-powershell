@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const DEFAULT_SIZE = { width: "700px", height: "700px" };
+const DEFAULT_SIZE = { width: "300px", height: "300px" };
 
 // The browser's resize handle writes inline width/height onto the textarea during a
 // drag. Copying those inline values is exact whatever the padding, border or box-sizing.
