@@ -12,7 +12,7 @@
 
 export { parse } from "./parser.js";
 export { render } from "./renderer.js";
-export { tokenize, OPERATORS } from "./tokenizer.js";
+export { tokenize, OPERATORS, WRITTEN_PLACEHOLDER } from "./tokenizer.js";
 export {
     getCommand,
     getCommandWord,

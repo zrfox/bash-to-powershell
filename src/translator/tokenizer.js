@@ -32,11 +32,18 @@ const QUOTES = ["'", '"'];
 
 /**
  * Our own output, e.g. `<no powershell equivalent: number-lines>`. When a user
- * clicks into a window that is showing a translation, that text becomes the new
+ * edits a window that is showing a translation, that text becomes the new
  * source, so a placeholder has to survive the trip back as one opaque token
  * instead of being re-read as `<no`, `powershell`, ... , `-lz>`.
  */
 const PLACEHOLDER = /^<[^<>\n]*>/;
+
+/**
+ * Exactly the two placeholders the renderer writes, as opposed to any other
+ * `<...>` the user may have typed (`< in.txt >`). The group is the id named by
+ * `<no SHELL equivalent: ID>`; `<unknown flag: TOKEN>` names none.
+ */
+export const WRITTEN_PLACEHOLDER = /<(?:no [^\s<>]+ equivalent: ([^<>\n]+)|unknown flag: [^<>\n]+)>/;
 
 const isWhitespace = char => char === " " || char === "\t" || char === "\r";
 
@@ -52,7 +59,7 @@ function operatorAt(input, index) {
  * @param {string} shell  shell the text was typed in (selects the escape char)
  * @returns {Array<{type: string, value: string, start: number, end: number,
  *                  quoted?: boolean, unterminated?: boolean,
- *                  placeholder?: boolean}>}
+ *                  placeholder?: boolean, placeholderId?: string}>}
  */
 export function tokenize(input, shell) {
     const tokens = [];
@@ -98,6 +105,7 @@ export function tokenize(input, shell) {
                     start: index,
                     end: index + placeholder[0].length,
                     placeholder: true,
+                    placeholderId: WRITTEN_PLACEHOLDER.exec(placeholder[0])?.[1],
                 });
                 index += placeholder[0].length;
                 continue;

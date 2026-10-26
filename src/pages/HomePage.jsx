@@ -19,9 +19,12 @@ function HomePage() {
     ]);
     const [dialogOpen, setDialog] = useState(false);
     const [activeWindowId, setActiveWindowId] = useState();
+    // Window the text below was typed in. Clicking another window makes that
+    // one active, but this one stays the source until the user edits there.
+    const [sourceWindowId, setSourceWindowId] = useState();
     // State for initial page load. Allows display of placeholder text in all windows.
     const [activeWindowsBoolean, setActiveWindowsBoolean] = useState(false);
-    // Text exactly as typed in the active window.
+    // Text exactly as typed in the source window.
     const [text, setText] = useState(PLACEHOLDER_TEXT);
     // Parse tree of that text. It is shell independent, so every other window
     // renders itself from this one tree instead of re-parsing the input.
@@ -30,16 +33,15 @@ function HomePage() {
     const [lockWindows, setLockWindows] = useState(true);
     const registerTextArea = useSyncedTextAreaSize(lockWindows); // must come after lockWindows
 
-    function setActiveWindowIdHandler(windowId, displayedText, languageName) {
+    function setActiveWindowIdHandler(windowId, languageName) {
         if (!activeWindowsBoolean) {
             // first activation: clear placeholder text
             setText("");
             setParsedLine(parse("", languageName));
             setActiveWindowsBoolean(true);
-        } else {
-            // keep this window's current content and re-translate the others from it
-            setTextHandler(displayedText, languageName);
         }
+        // Activating a window changes no text anywhere: every window keeps
+        // what it shows until the user edits one (setTextHandler).
         setActiveWindowId(windowId);
     }
 
@@ -61,10 +63,12 @@ function HomePage() {
     }
 
     // Single entry point for user input: store the raw text and parse it once
-    // in the shell it was typed in.
+    // in the shell it was typed in. Only the active window takes input, so it
+    // becomes the source the other windows are translated from.
     function setTextHandler(inputText, languageName) {
         setText(inputText);
         setParsedLine(parse(inputText, languageName));
+        setSourceWindowId(activeWindowId);
     }
 
     function setLockWindowsHandler() {
@@ -109,6 +113,7 @@ function HomePage() {
                         parsedLine={parsedLine}
                         setActiveWindowIdHandler={setActiveWindowIdHandler}
                         activeWindowId={activeWindowId}
+                        sourceWindowId={sourceWindowId}
                         text={text}
                         registerTextArea={registerTextArea}
                         activeWindowsBoolean={activeWindowsBoolean}

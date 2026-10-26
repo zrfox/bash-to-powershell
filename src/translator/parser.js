@@ -23,6 +23,9 @@
  *      flag of that command; otherwise the whole token is unknown.
  *   5. Anything flag-shaped that cannot be resolved becomes an unknown-flag
  *      node, which the renderer prints as `<unknown flag: TOKEN>`.
+ *   6. A `<no SHELL equivalent: FLAG-ID>` placeholder this tool printed is
+ *      read back as the flag it names, so every window gets its own spelling
+ *      of that flag again instead of a copy of another window's placeholder.
  */
 
 import {
@@ -86,8 +89,14 @@ function addWord(segment, token, shell) {
         return;
     }
 
+    // Rule 6: a no-equivalent placeholder is the flag it names, not text.
+    if (token.placeholderId) {
+        segment.nodes.push({ type: NODE_FLAG, id: token.placeholderId, commandId: segment.commandId, raw });
+        return;
+    }
+
     // Rule 3: quoted text is never a flag, even when it starts with a dash, and
-    // a placeholder this tool printed earlier travels back unchanged.
+    // an `<unknown flag: ...>` placeholder travels back unchanged.
     if (token.quoted || token.placeholder || !looksLikeFlag(raw, shell)) {
         segment.nodes.push({ type: NODE_ARGUMENT, raw });
         return;

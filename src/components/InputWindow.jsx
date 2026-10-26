@@ -1,6 +1,7 @@
 import { useId, useRef, useLayoutEffect } from "react";
 
 import { render } from "../translator/index.js";
+import { selectionToErase } from "../utils/placeholderSelection.js";
 
 function InputWindow({
     onRemove,
@@ -10,6 +11,7 @@ function InputWindow({
     setActiveWindowIdHandler,
     parsedLine,
     activeWindowId,
+    sourceWindowId,
     text,
     registerTextArea,
     activeWindowsBoolean,
@@ -22,11 +24,12 @@ function InputWindow({
     useLayoutEffect(() => registerTextArea(textAreaRef.current), [registerTextArea]);
 
     const isActive = nId === activeWindowId;
+    const isSource = nId === sourceWindowId;
 
-    // The active window shows what the user typed; every other window renders
+    // The source window shows what the user typed; every other window renders
     // the shared parse tree into its own shell.
     const valueText =
-        isActive || !activeWindowsBoolean ? text : render(parsedLine, languageName);
+        isSource || !activeWindowsBoolean ? text : render(parsedLine, languageName);
 
     return (
         <div className="input-window">
@@ -42,7 +45,15 @@ function InputWindow({
                 id={inputTextAreaId}
                 name="inputTextArea"
                 onFocus={() => {
-                    if (!isActive) setActiveWindowIdHandler(nId, valueText, languageName);
+                    if (!isActive) setActiveWindowIdHandler(nId, languageName);
+                }}
+                onKeyDown={e => {
+                    // One Backspace/Delete erases a whole placeholder: select it
+                    // and let the key delete the selection as it normally would.
+                    if (e.key !== "Backspace" && e.key !== "Delete") return;
+                    const { value, selectionStart, selectionEnd } = e.target;
+                    const range = selectionToErase(value, selectionStart, selectionEnd, e.key === "Delete");
+                    if (range) e.target.setSelectionRange(range.start, range.end);
                 }}
                 onChange={e => {
                     if (isActive) setTextHandler(e.target.value, languageName);
